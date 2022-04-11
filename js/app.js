@@ -9,7 +9,11 @@ let articulosCarrito = [];
 
 function cargarEventListeners(){
     listaCursos.addEventListener("click", agregarCurso)
-
+    carrito.addEventListener("click", eliminarCurso);
+    botonVaciarCarrito.addEventListener("click", ()=>{
+        articulosCarrito = [];
+        limpiarCarritoHTNL();
+    })
 }
 
 function agregarCurso(e){
@@ -46,7 +50,7 @@ function leerDatos(curso){
         articulosCarrito = [...cursosCarrito];   //<--- El array sera igual 
     }
     else{
-        articulosCarrito = [...articulosCarrito, infoCurso];
+        articulosCarrito = [...articulosCarrito, infoCurso];  //<-- Si el curso no existe lo agrega al array con cantidad 1
     }
     
     construirCarritoHTML();
@@ -73,6 +77,14 @@ function limpiarCarritoHTNL(){
    while(contenedorCarrito.firstChild){
        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
    }
+}
+
+function eliminarCurso(e){    
+    if(e.target.classList.contains('borrar-curso')){                  //  <--Si el elemento contiene la clase borrar curso que 
+        const cursoAEliminar = e.target.getAttribute("data-id");
+        articulosCarrito = articulosCarrito.filter( curso=> curso.id !== cursoAEliminar)    // <----Eliminar del arreglo el articulo carrito
+        construirCarritoHTML();  // <--- Llama de nuevo a la funcion para volver a costruir un html con los elementos actualizados del carrito
+    }
 }
 
 cargarEventListeners()
