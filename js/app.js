@@ -14,6 +14,10 @@ function cargarEventListeners(){
         articulosCarrito = [];
         limpiarCarritoHTNL();
     })
+    document.addEventListener("DOMContentLoaded", ()=>{
+        articulosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        construirCarritoHTML();
+    });
 }
 
 function agregarCurso(e){
@@ -70,7 +74,7 @@ function construirCarritoHTML(){
         `;
         contenedorCarrito.appendChild(tableRow);
     });
-    
+    sincronizarLocalStorage();
 }
 
 function limpiarCarritoHTNL(){
@@ -85,6 +89,9 @@ function eliminarCurso(e){
         articulosCarrito = articulosCarrito.filter( curso=> curso.id !== cursoAEliminar)    // <----Eliminar del arreglo el articulo carrito
         construirCarritoHTML();  // <--- Llama de nuevo a la funcion para volver a costruir un html con los elementos actualizados del carrito
     }
+}
+function sincronizarLocalStorage(){
+    localStorage.setItem( "carrito", JSON.stringify(articulosCarrito) );
 }
 
 cargarEventListeners()
